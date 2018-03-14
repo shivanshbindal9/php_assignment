@@ -14,14 +14,14 @@ PEOPLE SEARCH
 <br>
 <fieldset>
 <legend>SIGN IN </legend>
-<form action="validate.php" name="validation" method="post" onsubmit="checking()">
+<form action="<?php echo $_SERVER["PHP_SELF"];?>" name="validation" method="post"  onsubmit="checking()">
 <table>
 <tr>
 <td>
 Username:
 </td>
 <td>
-<input type="text" value="username" required >
+<input type="text" placeholder="username" name="user" required >
 </td>
 </tr>
 <tr>
@@ -29,7 +29,7 @@ Username:
 Password:
 </td>
 <td>
-<input type="password" value="password" required>
+<input type="password" placeholder="password" name="pass" required>
 </td>
 </tr>
 <tr>
@@ -48,3 +48,29 @@ function checking(){
 </script>
 </body>
 </html>
+<?php
+$con =new  mysqli("192.168.121.187","first_year","first_year","first_year_db");
+
+// Check connection
+if ($con->connect_error)
+    {
+        echo "Failed to connect to MySQL: " . $con->connect_error;
+          }
+echo "connected";
+ $sql = "SELECT username,password FROM shivansh_people";
+ $usern = $_POST['user'];
+ $passw = $_POST['pass'];
+ echo $usern;
+ $result=$con->query($sql);
+if($result->num_rows > 0) {
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
+                if($usern==$row["username"]&&$passw==$row["password"])
+                  echo "hello";
+                
+                    }
+                    } else {
+                        echo "0 results";
+                        }
+                       // $con->close();
+?> 
