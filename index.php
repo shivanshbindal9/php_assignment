@@ -39,38 +39,62 @@ Password:
 
 </tr>
 </table>
+<div><input type="checkbox" name="remember" id="remember">
 </form>
 </fieldset>
 <script type="text/javascript">
-var mail = /^[^@]+@[^@.]+\.[a-z]+$/i;
+var maqli("192.168.121.187","first_year","first_year","first_year_db");
+l = /^[^@]+@[^@.]+\.[a-z]+$/i;
 function checking(){
   alert("want to remember it");}
-</script>
-</body>
-</html>
-<?php
-$con =new  mysqli("192.168.121.187","first_year","first_year","first_year_db");
+  </script>
+  </body>
+  </html>
+  <?php
+  session_start();
+  $con =new  mysqli("192.168.121.187","first_year","first_year","first_year_db");
 
-// Check connection
+  // Check connection
 if ($con->connect_error)
-    {
-        echo "Failed to connect to MySQL: " . $con->connect_error;
-          }
+{
+  echo "Failed to connect to MySQL: " . $con->connect_error;
+}
 echo "connected";
- $sql = "SELECT username,password FROM shivansh_people";
- $usern = $_POST['user'];
- $passw = $_POST['pass'];
- echo $usern;
- $result=$con->query($sql);
+$sql = "SELECT username,password FROM shivansh_people";
+$usern = $_POST['user'];
+$passw = $_POST['pass'];
+if(!empty($_POST["remember"])) {
+
+  setcookie ("member_login",$_POST["user"],time()+ (10 * 365 * 24 * 60 * 60));
+
+  setcookie ("member_password",$_POST["pass"],time()+ (10 * 365 * 24 * 60 * 60));
+
+} else {
+
+  if(isset($_COOKIE["member_login"])) {
+
+    setcookie ("member_login","");
+
+  }
+
+  if(isset($_COOKIE["member_password"])) {
+
+    setcookie ("member_password","");
+
+  }
+
+}
+echo $usern;
+$result=$con->query($sql);
 if($result->num_rows > 0) {
-        // output data of each row
-        while($row = $result->fetch_assoc()) {
-                if($usern==$row["username"]&&$passw==$row["password"])
-                  echo "hello";
-                
-                    }
-                    } else {
-                        echo "0 results";
-                        }
-                       // $con->close();
+  // output data of each row
+  while($row = $result->fetch_assoc()) {
+    if($usern==$row["username"]&&$passw==$row["password"])
+      echo "hello";
+
+  }
+} else {
+  echo "0 results";
+}
+// $con->close();
 ?> 
