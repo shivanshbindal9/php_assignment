@@ -50,9 +50,13 @@ function checking(){
   </script>
   </body>
   </html>
+  
+
+
   <?php
+  include("config.php");
   session_start();
-  $con =new  mysqli("192.168.121.187","first_year","first_year","first_year_db");
+ // $con =new  mysqli("192.168.121.187","first_year","first_year","first_year_db");
 
   // Check connection
 if ($con->connect_error)
