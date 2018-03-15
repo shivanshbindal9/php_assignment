@@ -18,8 +18,8 @@
 
 <tr>
 <th><label for="user">username</label></th>
-<td><input type="text" id="user" name="user" onBlur=" check() " required /></td>
-<td><p id="error_user"></p><span id="user-availability-status"> hello </span>
+<td><input type="text" id="user" name="user" onBlur="checkAvailability()" required /></td>
+<td><p id="error_user"></p><span id="user-availability-status"></span>
 </td>
 </tr>
 
@@ -110,26 +110,7 @@
 </fieldset>
 </div>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js">
-</script>
-<script>
-function check() {
-   // $("#loaderIcon").show();
-    console.log("shi");
-      jQuery.ajax({
-url:"check_avialability.php",
-data:'username='+$("#user").val(),
-type: "POST",
-success:function(data){
-$("#user-availability-status").html(data);
-//$("#loaderIcon").hide();
-},
-error:function (){}
-});
-}
-
-
-
+<script type="text/javascript">
 var c= 0, d= 0, e= 0, f= 0, g= 0, h= 0, i= 0;
 function validate_form(){
   var name = document.forms["myform"]["user"].value;
@@ -228,8 +209,19 @@ function validate_form(){
     
   }
 }
-
-
+function checkAvailability() {
+ // $("#loaderIcon").show();
+  jQuery.ajax({
+url: "check_availability.php",
+data:'username='+$("#user").val(),
+type: "POST",
+success:function(data){
+$("#user-availability-status").html(data);
+//$("#loaderIcon").hide();
+},
+error:function (){}
+});
+}
 </script>
 
 </body>
