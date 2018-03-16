@@ -66,7 +66,7 @@ if ($con->connect_error)
 echo "connected";
 $sql = "SELECT username,password FROM shivansh_people";
 $usern = $_POST['user'];
-$passw = $_POST['pass'];
+$passw =md5($_POST['pass']);
 if(!empty($_POST["remember"])) {
 
   setcookie ("member_login",$_POST["user"],time()+ (10 * 365 * 24 * 60 * 60));

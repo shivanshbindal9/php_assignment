@@ -11,7 +11,7 @@
 
 <fieldset>
 <legend> SIGN UP </legend>
-<form name="myform" method="POST" onsubmit="validate_form()"  >
+<form name="myform" method="POST" id="form_id" action="#" onsubmit="validate_form()"  >
 
 <table>
 
@@ -114,9 +114,9 @@
 </script>
 <script>
 function check() {
-   // $("#loaderIcon").show();
-    console.log("shi");
-      jQuery.ajax({
+  // $("#loaderIcon").show();
+  console.log("shi");
+  jQuery.ajax({
 url:"check_avialability.php",
 data:'username='+$("#user").val(),
 type: "POST",
@@ -132,6 +132,7 @@ error:function (){}
 
 var c= 0, d= 0, e= 0, f= 0, g= 0, h= 0, i= 0;
 function validate_form(){
+  console.log("hello"); 
   var name = document.forms["myform"]["user"].value;
   var pass = document.forms["myform"]["password"].value;
   var email = document.forms["myform"]["email"].value;
@@ -141,10 +142,7 @@ function validate_form(){
   var age = document.forms["myform"]["age"].value;
   var city = document.forms["myform"]["city"].value;
 
-  //Warning Labels
-  if(c==0||d==0||e==0||f==0||g==0||h==0||i==0){
-    document.getElementById('warning').innerHTML="";
-  }
+
   if(c>=2||d>=2||e>=2||f>=2||g>=2||h>=2||i>=2){
     document.getElementById('warning').innerHTML="Don't mess with me by submitting wrong information";
   }
@@ -187,14 +185,14 @@ function validate_form(){
   {
     document.getElementById('error_email').innerHTML="*Did you just make up that email... :(  *";
     f++;
-    
+
   }
   var agematch = /^[0-9]+$/;
 
   if(age<5||age>150){
     document.getElementById('error_age').innerHTML="*Too old or too younger *";
     g++;
-   
+
   }
   else if(age.match(agematch))
   {
@@ -211,7 +209,7 @@ function validate_form(){
   {
     document.getElementById('error_city').innerHTML="*Enter a valid city*";
     h++;
-   
+
   }
   var mob = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
   ;
@@ -225,9 +223,14 @@ function validate_form(){
   {
     document.getElementById('error_num').innerHTML="*Enter a valid phone number*";
     i++;
-    
+
+  }if(c==0&&d==0&&e==0&&f==0&&g==0&&h==0&&i==0){
+    document.getElementById('warning').innerHTML="";
+    document.getElementById("form_id").submit();
   }
+
 }
+
 
 
 </script>
@@ -240,15 +243,15 @@ function validate_form(){
 include("config.php");
 if ($con->connect_error)
 {
-    echo "Failed to connect to MySQL: " . $con->connect_error;
+  echo "Failed to connect to MySQL: " . $con->connect_error;
 }
 else
 echo "connected <br>";
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-//echo "abcdef";
+  //echo "abcdef";
 
-  $name1 = $_POST["name"];
+  $name1 = $_POST["user"];
   $num1 = $_POST["number"];
   $email1 = $_POST["email"];
   $age1 = $_POST["age"];
@@ -257,20 +260,34 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   $city1 = $_POST["city"];
 
   if (preg_match("/^[a-zA-Z0-9]*$/",$name1)) {
-  //  if(preg_match("/^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/",$number1)){
-      if(preg_match("/^[^@]+@[^@.]+\.[a-z]+$/i",$email1)){
-        if(preg_match("/^[A-Za-z]*$/",$city)){
-          if($pass1==$confirm1){
-            echo "cool"."<br>";
+    //  if(preg_match("/^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/",$number1)){
+    if(preg_match("/^[^@]+@[^@.]+\.[a-z]+$/i",$email1)){
+      if(preg_match("/^[A-Za-z]*$/",$city)){
+        if($pass1==$confirm1){
+          echo "cool"."<br>";
 
-          } else echo "your password do not match";
-        } else echo "incorrect city <br>";
-      } else echo "incorrect email <br>";
-   // } else echo"incorrect no";
+          $user2 = mysqli_real_escape_string($con, $_POST['user']);
+          $pass2 =md5(mysqli_real_escape_string($con, $_POST['password']));
+          $email2= mysqli_real_escape_string($con, $_POST['email']);
+          $num2=mysqli_real_escape_string($con, $_POST['number']);
+          $city2=mysqli_real_escape_string($con, $_POST['city']);
+          
+
+          $query = "INSERT INTO shivansh_people(username,password,email,mobile,city)";
+          $query .= " VALUES ('$user2', '$pass2','$email2','$num2','$city2')";
+
+
+           $reuslt1=$con->query($query);
+
+
+        } else echo "your password do not match";
+      } else echo "incorrect city <br>";
+    } else echo "incorrect email <br>";
+    // } else echo"incorrect no";
   } else echo "incorrect name <br>";
 
 
-  
+
 
   echo "cool!!!";
 }
