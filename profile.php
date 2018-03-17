@@ -6,6 +6,7 @@ session_start();
 <head>
 <title>
 feed page
+</title>
 <style>
 #prof{
   z-index:-1;

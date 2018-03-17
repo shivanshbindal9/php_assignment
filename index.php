@@ -74,9 +74,14 @@ function checking(){
   //echo "Failed to connect to MySQL: " . $con->connect_error;
   //}
   echo "connected";
+//  if(isset($_POST['user'])){
   $sql = "SELECT username,password FROM shivansh_people";
 
-  $usern = $_POST['user'];
+ $usern = mysqli_real_escape_string($con, $_POST['user']);
+
+
+
+//  $usern = $_POST['user'];
   $passw =md5($_POST['pass']);
   if(isset($_SESSION["id"])){
 
@@ -146,6 +151,7 @@ if($result->num_rows > 0) {
       echo "<script> window.location.assign('profile.php'); </script>";
 
     }
+   // echo"<br> either username or password is incorrect";
   }
 } else {
   echo "0 results";

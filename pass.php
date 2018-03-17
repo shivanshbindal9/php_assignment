@@ -35,6 +35,9 @@ New  Password:
 <td>
 <input type="password" placeholder="password" name="pass" required>
 </td>
+<td>
+
+</td>
 </tr>
 <tr>
 <td>
@@ -64,6 +67,18 @@ function validate_form(){
 
 }
 
+if(pass.length<7){
+      document.getElementById('error_password').innerHTML="*Please enter a password of length more than 7";
+          d++;
+
+            }
+  else{
+        document.getElementById('error_password').innerHTML="";
+            d = 0;
+              }
+
+
+
 
 </script>
 <?php
@@ -78,7 +93,10 @@ $result=$con->query($sql);
 if($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-          if($ipass==$row["password"])
+
+if(strlen($_POST['pass'])>7){
+
+      if($ipass==$row["password"])
           {
           if($pass==$cpass)
           {
@@ -92,7 +110,10 @@ if($result->num_rows > 0) {
          echo "wrong match"; 
           }
           echo "dont mess with it";
-    }}}
+    }echo "please enter new password of length more than 7";
+    }
+    
+    }}
 else
 
 {
