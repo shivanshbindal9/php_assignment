@@ -102,8 +102,8 @@
 
 
 </table>
-<input type="submit" value="Submit" onsubmit="validate_form()" />
-<input type="button" value="check" onclick="validate_form()" />
+<!--<input type="submit" value="Submit" onsubmit="validate_form()" />-->
+<input type="button" value="submit" onclick="validate_form()" />
 <div id="warning"></div>
 
 </form>

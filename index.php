@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,30 +51,37 @@ l = /^[^@]+@[^@.]+\.[a-z]+$/i;
 function checking(){
   alert("want to remember it");}
   </script>
-  </body>
-  </html>
+ 
   
 
 
+
   <?php
+//  session_start();
   include("config.php");
-  session_start();
+ // session_start();
  // $con =new  mysqli("192.168.121.187","first_year","first_year","first_year_db");
 
   // Check connection
-if ($con->connect_error)
-{
-  echo "Failed to connect to MySQL: " . $con->connect_error;
-}
+//if ($con->connect_error)
+//{
+  //echo "Failed to connect to MySQL: " . $con->connect_error;
+//}
 echo "connected";
 $sql = "SELECT username,password FROM shivansh_people";
+
 $usern = $_POST['user'];
 $passw =md5($_POST['pass']);
-if(!empty($_POST["remember"])) {
+if(isset($_SESSION["id"])){
 
+if(!empty($_POST["remember"])||$_SESSION["remember"]) {
+ 
+  header("Location: profile.php");}}
+if(!empty($_POST["remember"]))
+{
   setcookie ("member_login",$_POST["user"],time()+ (10 * 365 * 24 * 60 * 60));
 
-  setcookie ("member_password",$_POST["pass"],time()+ (10 * 365 * 24 * 60 * 60));
+  setcookie ("member_password",md5($_POST["pass"]),time()+ (10 * 365 * 24 * 60 * 60));
 
 } else {
 
@@ -94,11 +104,24 @@ if($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
     if($usern==$row["username"]&&$passw==$row["password"])
-      echo "hello";
+//       echo "<script> window.location.assign('profile.php'); </script>";
+    { $_SESSION["id"] = session_id();
 
+    $_SESSION["username"]=$usern;
+    $_SESSION["remember"]=$_POST["remember"];
+     // echo "hello";
+echo "<script> window.location.assign('profile.php'); </script>";
+    }
   }
 } else {
   echo "0 results";
 }
-// $con->close();
-?> 
+//if(isset($_SESSION["id"])){
+
+ // if(!empty($_POST["remember"])||$_SESSION["remember"]) {
+  //      header("Location: profile.php");}
+
+?>
+
+</body>
+</html>
