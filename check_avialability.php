@@ -1,5 +1,5 @@
 <?php
-console.log("sdd");
+//console.log("sdd");
 require_once("dbcontroller.php");
 $db_handle = new DBController();
 if(!empty($_POST["username"])) {

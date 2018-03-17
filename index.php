@@ -44,6 +44,12 @@ Password:
 </table>
 <div><input type="checkbox" name="remember" id="remember">
 </form>
+<br>
+
+<form action="signup.php">
+New To It   ????
+<input type="submit" value="SignUp">
+</form>
 </fieldset>
 <script type="text/javascript">
 var maqli("192.168.121.187","first_year","first_year","first_year_db");
@@ -51,66 +57,94 @@ l = /^[^@]+@[^@.]+\.[a-z]+$/i;
 function checking(){
   alert("want to remember it");}
   </script>
- 
-  
+
+
 
 
 
   <?php
-//  session_start();
+  //  session_start();
   include("config.php");
- // session_start();
- // $con =new  mysqli("192.168.121.187","first_year","first_year","first_year_db");
+  // session_start();
+  // $con =new  mysqli("192.168.121.187","first_year","first_year","first_year_db");
 
   // Check connection
-//if ($con->connect_error)
-//{
+  //if ($con->connect_error)
+  //{
   //echo "Failed to connect to MySQL: " . $con->connect_error;
-//}
-echo "connected";
-$sql = "SELECT username,password FROM shivansh_people";
+  //}
+  echo "connected";
+  $sql = "SELECT username,password FROM shivansh_people";
 
-$usern = $_POST['user'];
-$passw =md5($_POST['pass']);
-if(isset($_SESSION["id"])){
+  $usern = $_POST['user'];
+  $passw =md5($_POST['pass']);
+  if(isset($_SESSION["id"])){
 
-if(!empty($_POST["remember"])||$_SESSION["remember"]) {
- 
-  header("Location: profile.php");}}
-if(!empty($_POST["remember"]))
+   // if(!empty($_POST["remember"])||$_SESSION["remember"]) {
+
+      header("Location: profile.php");}
+      if(isset($_COOKIE["member"]))
 {
+  $query2 ="select * from shivansh_cookie";
+  $res=$con->query($query2);
+  if($res->num_rows>0){
+    while ($row=$res -> fetch_assoc()){
+    //  echo "feed:     ".$row['comment']."<br>". $row['time']."   ". $row['username']."<br><br>";
+      $_SESSION["id"]=$row['session'];
+      $_SESSION["username"]=$row['username'];
+      header("Location: profile.php");
+    }}
+
+
+
+}
+
+
+/*if(!empty($_POST["remember"]))
+  {
   setcookie ("member_login",$_POST["user"],time()+ (10 * 365 * 24 * 60 * 60));
 
   setcookie ("member_password",md5($_POST["pass"]),time()+ (10 * 365 * 24 * 60 * 60));
 
-} else {
+  } else {
 
   if(isset($_COOKIE["member_login"])) {
 
-    setcookie ("member_login","");
+  setcookie ("member_login","");
 
   }
 
   if(isset($_COOKIE["member_password"])) {
 
-    setcookie ("member_password","");
+  setcookie ("member_password","");
 
   }
 
-}
+  }*/
 echo $usern;
 $result=$con->query($sql);
 if($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
     if($usern==$row["username"]&&$passw==$row["password"])
-//       echo "<script> window.location.assign('profile.php'); </script>";
+      //       echo "<script> window.location.assign('profile.php'); </script>";
     { $_SESSION["id"] = session_id();
+      $sess=$_SESSION["id"];
+      $_SESSION["username"]=$usern;
+      $_SESSION["remember"]=$_POST["remember"];
+      // echo "hello";
+      if(isset($_POST["remember"])){
+      setcookie("member",$_SESSION["id"],time()+(10*365*24*60*60));
 
-    $_SESSION["username"]=$usern;
-    $_SESSION["remember"]=$_POST["remember"];
-     // echo "hello";
-echo "<script> window.location.assign('profile.php'); </script>";
+      $query = "INSERT INTO shivansh_cookie(username,password,session)";
+      $query .= " VALUES ('$usern', '$passw','$sess' )";
+
+
+      $reuslt1=$con->query($query);
+      }
+
+      echo "<script> window.location.assign('profile.php'); </script>";
+
     }
   }
 } else {
@@ -118,8 +152,8 @@ echo "<script> window.location.assign('profile.php'); </script>";
 }
 //if(isset($_SESSION["id"])){
 
- // if(!empty($_POST["remember"])||$_SESSION["remember"]) {
-  //      header("Location: profile.php");}
+// if(!empty($_POST["remember"])||$_SESSION["remember"]) {
+//      header("Location: profile.php");}
 
 ?>
 

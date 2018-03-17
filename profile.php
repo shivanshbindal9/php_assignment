@@ -11,7 +11,7 @@ feed page
   z-index:-1;
 }
 #prof1{
-
+}
 
 </style>
 </title>
@@ -21,6 +21,13 @@ feed page
 
 <?php
 //session_start();
+
+if(!isset($_SESSION["username"])){
+  echo "you are logged out";
+
+}
+else
+{
 include("config.php");
 if (isset($_SESSION["username"]))
 echo "<p> my name is </p>".$_SESSION["username"];
@@ -35,7 +42,7 @@ echo $row["profile"];  ?>" height='10%' width='10%'><br>
 $sql2 = "SELECT background FROM shivansh_people where username = '".$_SESSION["username"]."';";
 $result = $con->query($sql2);
 $row = $result->fetch_assoc();
-echo $row["background"];  ?>" height='25%' width='100%'>
+echo $row["background"];  ?>" height='15%' width='25%'>
 
 
 <form name="profile" action="upload.php" method="post" enctype="multipart/form-data">
@@ -51,11 +58,23 @@ Select back image:
 <form action="logout.php" method="post">
 <input type="submit" value="logout">
 </form>
+<form action="updateprofile.php" method="post">
+<input type="submit" value="Update Profile">
+</form>
+
+<form action="pass.php" method="post">
+<input type="submit" value="change password">
+</form>
+<form action="feedpage.php" method="post">
+<input type="submit" value="go to feeds">
+</form>
+
+
   <?php
 if($con)
 {
   echo "connected";
-}
+}}
 ?>
 
 </form>

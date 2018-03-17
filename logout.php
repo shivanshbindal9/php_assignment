@@ -11,6 +11,7 @@ session_unset();
 
 // destroy the session
 session_destroy();
+setcookie("member", "", time() - 3600);
 header("location:./index.php");
 ?>
 
