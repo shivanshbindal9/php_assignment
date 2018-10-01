@@ -2,20 +2,20 @@
 session_start();
 include("config.php");
 if(isset($_SESSION["username"])){
-echo "hiii";
+  echo "hiii";
 //echo NOW();
-function test($data) {
+  function test($data) {
     $data = trim($data);
-      $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-          return $data;
-}
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  }
 
-$t = date('Y-d-m H:i:s',time());
-echo "$t";
+  $t = date('Y-d-m H:i:s',time());
+  echo "$t";
 //$query = "INSERT INTO time VALUES('$t')";
-$user =  test ($_SESSION["username"]);
-$po= test  ($_POST["feed"]);
+  $user =  test ($_SESSION["username"]);
+  $po= test  ($_POST["feed"]);
 /*function test($data) {
   $data = trim($data);
   $data = stripslashes($data);
@@ -35,8 +35,8 @@ if(isset($po)){
     while ($row=$res -> fetch_assoc()){
       echo "feed:     ".$row['comment']."<br>". $row['time']."   ". $row['username']."<br><br>";
     }}
-header("location:./feedpage.php");}
-else
-echo "logged out"; 
-?>
+    header("location:./feedpage.php");}
+    else
+      echo "logged out"; 
+    ?>
 
