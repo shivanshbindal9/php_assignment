@@ -143,7 +143,26 @@ function validate_form(){
   var city = document.forms["myform"]["city"].value;
 
 
-  if(c>=2||d>=2||e>=2||f>=2||g>=2||h>=2||i>=2){
+  if(c>=2||d>=2||e>=2
+<div class="login_page">
+<img style="margin-left:40%" src="./images/index.jpeg" width="220px" height="220px">
+
+<fieldset>
+<legend> SIGN UP </legend>
+<form name="myform" method="POST" id="form_id" action="#" onsubmit="validate_form()"  >
+
+<table>
+
+
+<tr>
+<th><label for="user">username</label></th>
+<td><input type="text" id="user" name="user" onBlur=" check() " required /></td>
+<td><p id="error_user"></p><span id="user-availability-status"> hello </span>
+</td>
+</tr>
+
+
+<tr>||f>=2||g>=2||h>=2||i>=2){
     document.getElementById('warning').innerHTML="Don't mess with me by submitting wrong information";
   }
   var alphabets = /^[a-zA-Z0-9]+$/; //cannot contain special characters
